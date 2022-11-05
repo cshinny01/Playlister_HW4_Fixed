@@ -237,9 +237,11 @@ function GlobalStoreContextProvider(props) {
                                     type: GlobalStoreActionType.CHANGE_LIST_NAME,
                                     payload: {
                                         idNamePairs: pairsArray,
-                                        playlist: playlist
+                                        playlist: playlist,
+                                        currentList: null
                                     }
                                 });
+                                history.push("/playlist/" + playlist._id);
                             }
                         }
                         getListPairs(playlist);

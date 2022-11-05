@@ -1,9 +1,11 @@
 import React, { createContext, useEffect, useState } from "react";
 import { useHistory } from 'react-router-dom'
 import api from './auth-request-api'
+import jsTPS from '../common/jsTPS'
 
 const AuthContext = createContext();
 console.log("create AuthContext: " + AuthContext);
+const tps = new jsTPS();
 
 // THESE ARE ALL THE TYPES OF UPDATES TO OUR AUTH STATE THAT CAN BE PROCESSED
 export const AuthActionType = {
@@ -103,6 +105,7 @@ function AuthContextProvider(props) {
                 payload: null
             })
             history.push("/");
+            tps.clearAllTransactions();
         }
     }
 
