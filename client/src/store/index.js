@@ -258,6 +258,7 @@ function GlobalStoreContextProvider(props) {
             payload: {}
         });
         tps.clearAllTransactions();
+        history.push("/");
     }
 
     // THIS FUNCTION CREATES A NEW LIST
@@ -320,15 +321,18 @@ function GlobalStoreContextProvider(props) {
     store.deleteList = function (id) {
         async function processDelete(id) {
             let response = await api.deletePlaylistById(id);
-            if (response.data.success) {
-                store.loadIdNamePairs();
+            if (response.status === 200) {
                 history.push("/");
+                store.loadIdNamePairs();
             }
         }
         processDelete(id);
     }
     store.deleteMarkedList = function() {
         store.deleteList(store.listIdMarkedForDeletion);
+        store.hideModals();
+    }
+    store.unmarkListForDeletion = function(){
         store.hideModals();
     }
     // THIS FUNCTION SHOWS THE MODAL FOR PROMPTING THE USER
