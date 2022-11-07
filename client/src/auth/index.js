@@ -283,9 +283,6 @@ function AuthContextProvider(props) {
     auth.isPasswordLengthOpen = () => {
         return auth.CurrentModal === CurrentModal.PASSWORD_SHORT;
     }
-    auth.eraseTransactions = function() {
-        tps.clearAllTransactions();
-    }
     auth.pickRegisterModal = (firstName, lastName, email, password, passwordVerify) => {
         if (firstName === "" || lastName === "" || email === ""){
             auth.showMissingInfo(firstName, lastName, email);

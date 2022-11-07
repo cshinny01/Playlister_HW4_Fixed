@@ -34,7 +34,7 @@ export default function AppBanner() {
     }
 
     const handleTransactions = () => {
-        auth.eraseTransactions();
+        store.closeCurrentList();
     }
     const menuId = 'primary-search-account-menu';
     const loggedOutMenu = (
