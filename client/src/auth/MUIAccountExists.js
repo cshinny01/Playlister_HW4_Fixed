@@ -3,7 +3,7 @@ import AuthContext from '../auth'
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
-import Alert from '@material-ui/lab/Alert';
+import { Alert } from '@mui/material';
 
 
 const style = {
@@ -18,70 +18,44 @@ const style = {
     boxShadow: 24,
     p: 4,
 };
-export default function MUIAccountExistsModal() {
+export default function MUIAccountExists() {
     const {auth} = useContext(AuthContext);
     let text = "";
     let modalClass = "modal";
-    function handleOpen(){
-        if (auth.isMissingInfoOpen()){
-            text = "Info MISSING";
-            modalClass += " is-visible";
-            return true;
-        }
-        else if (auth.isUserExistsModalOpen()){
-            text = "USER ALREADY EXISTS";
-            modalClass += " is-visible";
-            return true;
-        }
-        else if (auth.isIncorrectLoginOpen()){
-            text = "INCORRECT USER/PASSWORD";
-            modalClass += " is-visible";
-            return true;
-        }
-        else if (auth.isPasswordNoMatchOpen()){
-            text = "PASSWORDS DO NOT MATCH";
-            modalClass += " is-visible";
-            return true;
-        }
-        else if (auth.isPasswordLengthOpen()){
-            text = "LENGTH OF PASSWORD DOES NOT EXCEED 8 CHARACTERS";
-            modalClass += " is-visible";
-            return true;
-        }
-        return false;
-    }
-
+    let a = false;
     if (auth.isMissingInfoOpen()){
-        text = "Info MISSING";
-        showModal = true;
+        text += "Info MISSING";
         modalClass += " is-visible";
+        a = true;
     }
     else if (auth.isUserExistsModalOpen()){
-        text = "USER ALREADY EXISTS";
-        showModal = true;
+        text += "USER ALREADY EXISTS";
         modalClass += " is-visible";
+        a = true;
+
     }
     else if (auth.isIncorrectLoginOpen()){
-        text = "INCORRECT USER/PASSWORD";
-        showModal = true;
+        text += "INCORRECT USER/PASSWORD";
         modalClass += " is-visible";
+        a = true;
     }
     else if (auth.isPasswordNoMatchOpen()){
-        text = "PASSWORDS DO NOT MATCH";
-        showModal = true;
+        text += "PASSWORDS DO NOT MATCH";
         modalClass += " is-visible";
+        a = true;
     }
     else if (auth.isPasswordLengthOpen()){
-        text = "LENGTH OF PASSWORD DOES NOT EXCEED 8 CHARACTERS";
-        showModal = true;
+        text += "LENGTH OF PASSWORD DOES NOT EXCEED 8 CHARACTERS";
         modalClass += " is-visible";
+        a = true;
     }
+
     function handleClose(event){
         auth.closeModals();
     }
     return (
         <Modal
-            open={handleOpen}
+            open={a}
         >
             <Box sx={style}>
             <div

@@ -33,7 +33,6 @@ const CurrentModal = {
     PASSWORD_SHORT: "PASSWORD_SHORT"
 }
 
-
 function AuthContextProvider(props) {
     const [auth, setAuth] = useState({
         CurrentModal: CurrentModal.NONE,
@@ -88,7 +87,6 @@ function AuthContextProvider(props) {
             case AuthActionType.USER_EXISTS: {
                 return setAuth({
                     CurrentModal: CurrentModal.ACCOUNT_EXISTS,
-                    user: payload.user,
                     email: payload.email,
                     loggedIn: false
                 })
@@ -96,12 +94,8 @@ function AuthContextProvider(props) {
             case AuthActionType.WRONG_I: {
                 return setAuth({
                     CurrentModal: CurrentModal.WRONG_INFO,
-                    user: payload.user,
                     email: payload.email,
                     password: payload.password,
-                    passwordVerify: payload.passwordVerify,
-                    fName: payload.fName,
-                    lName: payload.lName,
                     loggedIn: false
                 })
             }
@@ -178,7 +172,6 @@ function AuthContextProvider(props) {
         } catch(error){
             console.log(error.response.data.errorMessage);
             auth.pickRegisterModal(firstName, lastName, email, password, passwordVerify);
-
         }
     }
 
@@ -253,15 +246,13 @@ function AuthContextProvider(props) {
             payload: {}
         })
     }
-    auth.showMissingInfo = (f, l ,e,p, py) =>{
+    auth.showMissingInfo = (f, l ,e) =>{
         authReducer({
             type: AuthActionType.MISSING_INFO,
             payload: {
                 fName: f,
                 lName: l,
-                email: e,
-                password: p,
-                passwordVerify: py
+                email: e
             }
         })
     }
@@ -279,7 +270,7 @@ function AuthContextProvider(props) {
         })
     }
     auth.isPasswordNoMatchOpen = () => {
-        return auth.currentModal === CurrentModal.PASSWORD_NO_MATCH;
+        return auth.CurrentModal === CurrentModal.PASSWORD_NO_MATCH;
     }
     auth.showPasswordLengthBad = (p) => {
         authReducer({
@@ -290,14 +281,14 @@ function AuthContextProvider(props) {
         })
     }
     auth.isPasswordLengthOpen = () => {
-        return auth.currentModal === CurrentModal.PASSWORD_SHORT;
+        return auth.CurrentModal === CurrentModal.PASSWORD_SHORT;
     }
     auth.eraseTransactions = function() {
         tps.clearAllTransactions();
     }
     auth.pickRegisterModal = (firstName, lastName, email, password, passwordVerify) => {
-        if (firstName === null || lastName === null || email === null || password === null || passwordVerify === null){
-            auth.showMissingInfo(firstName, lastName, email, password, passwordVerify);
+        if (firstName === "" || lastName === "" || email === ""){
+            auth.showMissingInfo(firstName, lastName, email);
         }
         else if (password !== passwordVerify){
             auth.showPasswordNoMatchModal(password, passwordVerify);
